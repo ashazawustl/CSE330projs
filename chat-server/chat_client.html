@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Whisp Chatrooms</title>
+    <!-- <link rel="stylesheet" href="chat_server.css"> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+          /*------------DEFAULTS---------- */
+          * {
+           box-sizing: border-box;
+           margin: 0;
+           padding: 0;
+           font-family: "Julius Sans One", "Jost", sans-serif;
+       }
+
+       *,
+       *::before,
+       *::after {
+           box-sizing: border-box;
+       }
+
+       :root {
+           --deep-violet: #202033;
+           --beige: #f9e1e3;
+           --lilac: #b2a4ee;
+           --less-violet: #a472c7;
+           --miss-rose: #f09cbe;
+       }
+
+       /* ------------------------ LOGIN SCREEN -------------------- */
+       #login-screen {
+           background-color: aliceblue;
+           justify-content: center;
+           align-items: center;
+           width: 100vw;
+           height: 100vh;
+       }
+
+       #login-wrapper {
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           width: 100vw;
+           height: 100vh;
+       }
+
+       #login {
+           padding: 1rem;
+       }
+
+       #logIn {
+           background-color: #202033;
+           color: aliceblue;
+           border-radius: .25rem;
+           border: none;
+           border: .25rem solid aliceblue;
+           padding: .5rem;
+       }
+
+       #login input {
+           padding: .5rem;
+           border: none;
+       }
+
+       #logIn:hover {
+           padding: .5rem;
+           border: .25rem solid #202033;
+           background-color: aliceblue;
+           color: #202033;
+       }
+
+       /* ------------------- MAIN SCREEN -------------------------- */
+
+       #home-screen {
+           background-color: aliceblue;
+           justify-content: center;
+           align-items: center;
+           width: 100vw;
+           height: 100vh;
+       }
+
+       #home-body {
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           margin-top: 10vh;
+       }
+
+       button {
+           padding: .25rem;
+           background-color: #202033;
+           color: aliceblue;
+           border-radius: .5rem;
+           border: .25rem solid #202033;
+       }
+
+       button:hover {
+           padding: .25rem;
+           background-color: aliceblue;
+           color: #202033;
+           border-radius: .5rem;
+           border: .25rem solid #202033;
+       }
+
+       input {
+           padding: .5rem;
+           border-radius: .25rem;
+           border: none;
+
+       }
+
+       /* ------------------- CHAT SCREEN -------------------------- */
+       #chat-screen {
+           background-color: aliceblue;
+           width: 100vw;
+           height: 100vh;
+           flex-direction: column;
+           justify-content: center;
+
+       }
+
+       #chat_popup {
+           display: flex;
+           flex-direction: row;
+           width: 100vw;
+           height: 100vh;
+           flex-direction: column;
+           /* justify-content: center; */
+       }
+
+       #chat-header,
+       #home-header {
+           background-color: #202033;
+           color: aliceblue;
+           position: sticky;
+           width: 100%;
+           top: 0px;
+           z-index: 100;
+
+           display: flex;
+           flex-direction: row;
+           padding: 1.5rem 5rem;
+
+           justify-content: space-between;
+       }
+
+       #leave,
+       #logOut {
+           padding: .5rem;
+           background-color: aliceblue;
+           color: #202033;
+           border-radius: .5rem;
+           border: .25rem solid aliceblue;
+
+       }
+
+       #leave:hover,
+       #logOut:hover {
+           padding: .5rem;
+           background-color: #202033;
+           color: aliceblue;
+           border-radius: .5rem;
+           border: .25rem solid aliceblue;
+       }
+
+       /* Flex 1/3 2/3 code from  Michael Benjamin on StackOverflow*/
+       #chat-body {
+           display: flex;
+           /* background-color: red; */
+           width: 100vw;
+           height: 100vh;
+           display: flex;
+           align-items: center;
+       }
+
+       #user-wrapper {
+           /* padding: 2rem; */
+           /* background-color: #b2a4ee; */
+           flex: 1 1 auto;
+           display: flex;
+           justify-content: center;
+           align-content: center;
+           flex-direction: column;
+           height: 70vh;
+           margin-bottom: 10vh;
+           margin-left: 5rem;
+       }
+
+       #chat-messages {
+           overflow: auto;
+           height: 70vh;
+           margin-bottom: 10vh;
+           padding: 2rem;
+           scrollbar-color: #202033 aliceblue;
+           /* background-color: aqua; */
+           flex: 2 1 auto;
+           display: flex;
+           justify-content: center;
+           flex-direction: column;
+       }
+
+
+       li {
+           margin: 0;
+           padding: 0;
+           list-style-type: none;
+           margin-bottom: 1rem;
+       }
+
+       #userlist button {
+           padding: .25rem;
+           background-color: #202033;
+           color: aliceblue;
+           border-radius: .5rem;
+           border: .25rem solid #202033;
+       }
+
+       #userlist button:hover {
+           padding: .25rem;
+           background-color: aliceblue;
+           color: #202033;
+           border-radius: .5rem;
+           border: .25rem solid #202033;
+       }
+
+       /* CREDIT: Footer code from Abby's Peanuts Gallery from CSE204 */
+       #chatting {
+           background-color: #202033;
+           color: aliceblue;
+           padding: 1rem 2rem;
+           position: fixed;
+           left: 0;
+           bottom: 0;
+           width: 100%;
+       }
+
+       #chatting input {
+           padding: .5rem;
+           border-radius: .25rem;
+           border: none;
+       }
+
+       #chatting button {
+           padding: .25rem;
+           background-color: aliceblue;
+           color: #202033;
+           border-radius: .5rem;
+           border: .25rem solid aliceblue;
+       }
+
+       #chatting button:hover {
+           padding: .25rem;
+           background-color: #202033;
+           color: aliceblue;
+           border-radius: .5rem;
+           border: .25rem solid aliceblue;
+       }
+
+       #chat-radio {
+           display: flex;
+       }
+
+       .spacing {
+           margin-right: 2rem;
+       }
+    </style>
+</head>
+
+<body>
+    <div id="login-screen">
+        <div id="login-wrapper">
+            <h1>Whisp Chatrooms</h1>
+            <div id="login">
+                <label for="loginField">Username: </label>
+                <input type="text" id="loginField" placeholder="Enter username">
+                <button id="logIn">Log In</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="home-screen">
+        <div id="home-header">
+            <h1>Whisp Chatrooms</h1>
+            <div>
+                <button id="logOut">Logout</button>
+            </div>
+        </div>
+        <div id="home-body">
+            <div id="home-rooms">
+                <h2>Available Rooms:</h2>
+                <ul id="room-list"></ul>
+            </div>
+            <div id="home-create-room">
+                <input type="text" id="roomNameInput" placeholder="Enter room name">
+                <button id="createRoomButton" disabled>Create Room</button>
+                <!-- optional input that takes in a password for that room you're creating, if the password input is null then it's a public room -->
+                <input type="password" id="roompassInput" placeholder="Room password (optional)">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="chat-screen">
+        <div id="chat_popup">
+            <div id="chat-header">
+                <div id="chat-name">
+                    <h2>ChatRoom</h2>
+                </div>
+                <div id="leave-div">
+                    <button id="leave">Leave Room</button>
+                </div>
+            </div>
+            <div id="chat-body">
+                <div id="chat-messages"></div>
+                <div id="user-wrapper">
+                    <h3>Active Users:</h3>
+                    <ul id="userlist"></ul>
+                </div>
+            </div>
+            <div id="chatting">
+                <form id="chatting-form">
+                    <div id="chat-mode">
+                        <div id="chat-radio">
+                            <input type="radio" id="send-all" name="msgSend">
+                            <label for="send-all">All</label><br>
+                            <div class="spacing"></div>
+                            <input type="radio" id="send-whisper" name="msgSend">
+                            <label for="send-whisper">Whisper</label><br>
+                        </div>
+                        <input type="text" id="whisperTo" placeholder="Enter user to send whisper" disabled>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="chat-input">
+                        <input id="chat_input" type="text" placeholder="Type a message" disabled>
+                        <button type="button" id="sendMessage">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const socket = io.connect();  // Establish a connection to the Socket.IO server
+
+            if (socket) {
+                console.log("Socket is connected, emitting fetch-rooms");
+                socket.emit("fetch-room");
+            }
+
+            // DOM elements
+            const roomList = document.getElementById("room-list");
+            const chatMessages = document.getElementById("chat-messages");
+            const chatInput = document.getElementById("chat_input");
+            const roomNameInput = document.getElementById("roomNameInput");
+            const userNameInput = document.getElementById("loginField");
+            const userList = document.getElementById("userlist");
+            const whisperTo = document.getElementById("whisperTo");
+
+            let currentRoom;
+            let username;
+
+            logCheck();
+            chatCheck();
+
+            //getting emission for assignOwner function
+            socket.on("assignedOwner", ({ roomName, isOwner, creatorUsername }) => {
+                if (isOwner) {
+                    alert(`Room "${roomName}" created. "${creatorUsername}" is the owner. `)
+                }
+            });
+
+            //Check and display login if not logged in
+            function logCheck() {
+                if (username == null) {
+                    document.getElementById("login-screen").style.display = "block";
+                    console.log("user null");
+                    hideHome();
+                }
+                else {
+                    document.getElementById("login-screen").style.display = "none";
+                    console.log("user:" + username);
+                    showHome();
+                }
+            }
+
+            //Check and display chat room if in a room
+            function chatCheck() {
+                if (currentRoom == null) {
+                    document.getElementById("chat-screen").style.display = "none";
+                    console.log("chat null");
+                    logCheck(); //displays home if logged in
+                }
+                else {
+                    document.getElementById("chat-screen").style.display = "block";
+                    console.log("In Room:" + currentRoom);
+                    hideHome();
+                }
+            }
+
+            function hideHome() {
+                document.getElementById("home-screen").style.display = "none";
+
+            }
+
+            function showHome() {
+                document.getElementById("home-screen").style.display = "block";
+            }
+
+            //function to handle user login
+            function loginUser(inputUsername) {
+                username = inputUsername;
+                socket.emit("login", username);  // Emit login event with the username
+                logCheck();
+            }
+
+            document.getElementById("logIn").addEventListener("click", function () {
+                const inputUsername = userNameInput.value.trim();  // Get the username from the input field
+                if (inputUsername) {
+                    loginUser(inputUsername);
+                } else {
+                    alert("Please enter a valid username.");
+                }
+            });
+
+            // Listen for the server's login response
+            socket.on("login", (message) => {
+                console.log("Login response from server:", message);  // Log the response from the server
+                if (message.startsWith("Welcome")) {
+                    // Enable room creation and joining after login
+                    createRoomButton.disabled = false;
+                }
+                else {
+                    username = null;
+                    logCheck();
+                }
+                alert(message);  // Show an alert with the response message
+
+            });
+
+            //function to handle user logout
+            function logoutUser(user) {
+                const inputUsername = userNameInput.value.trim();
+                user = inputUsername;
+                socket.emit("logout", user);
+                username = null;
+                chatMessages.innerHTML = "";
+                logCheck();
+            }
+
+            document.getElementById("logOut").addEventListener("click", function () {
+                const inputUsername = userNameInput.value.trim(); //get username from input field
+                if (inputUsername.users == username.users) {
+                    logoutUser(inputUsername);
+                } else {
+                    alert("No user logged in to be logged out.");
+                }
+            });
+
+            //listen for server's logout response
+            socket.on("logout", (message) => {
+                console.log("Logout response from server:", message); //log the response from the server
+                alert(message);
+                if (message.startsWith("Logged Out")) {
+                    createRoomButton.disabled = true;
+                }
+            });
+
+            // Update the room list + include differentiating between public and private rooms
+            socket.on("room-list", function (rooms) {
+                console.log("Received room list:", rooms);
+                roomList.innerHTML = ""; // Clear existing room list
+                rooms.forEach(room => {
+                    const roomItem = document.createElement("li");
+                    roomItem.innerText = room.name;
+                    if (room.password) {
+                        const passwordInput = document.createElement("input");
+                        passwordInput.type = "password";
+                        passwordInput.placeholder = "Enter password";
+                        const joinButton = document.createElement("button");
+                        joinButton.innerText = "Join";
+                        joinButton.onclick = () => {
+                            const passwordAttempt = passwordInput.value;
+                            joinRoom(room.name, passwordAttempt);
+                            console.log("Attempting to join room: " + room.name + " with password: " + passwordAttempt);
+                        };
+                        roomItem.appendChild(passwordInput);
+                        roomItem.appendChild(joinButton);
+                    } else {
+                        const joinButton = document.createElement("button");
+                        joinButton.innerText = "Join";
+                        joinButton.onclick = () => joinRoom(room.name);
+                        roomItem.appendChild(joinButton);
+                    }
+                    roomList.appendChild(roomItem);
+                });
+            });
+
+
+            socket.on("chat-messages", function (data) {
+                // Append the received message to the chat window
+                displayMessage(data.message);
+            });
+
+            // Function to create a new room
+            function createRoom() {
+                const roomName = roomNameInput.value;
+                const roomPassword = document.getElementById("roompassInput").value;
+                if (roomName) {
+                    console.log("Creating room:", roomName, "with password:", roomPassword);
+                    socket.emit("create-room", { roomName: roomName, password: roomPassword });
+                    roomNameInput.value = "";
+                    document.getElementById("roompassInput").value = "";
+                } else {
+                    alert("Please enter a room name.");
+                }
+            }
+
+            // Listen for the updated room list after creating a room
+            document.getElementById("createRoomButton").addEventListener("click", createRoom);
+
+            // Function to join a room, password defaulted to null
+            function joinRoom(roomName, password) {
+                console.log("Attempting to join room:", roomName, "with password:", password); // Debugging log
+                // Ensure user is logged in before joining a room
+                socket.emit("request-room-details", roomName, (roomDetails) => {
+                    if (roomDetails.bannedUsers && roomDetails.bannedUsers.includes(socket.data.username)) {
+                        alert("You are banned from this room.");
+                        return; // Stop further execution if the user is banned
+                    }
+                })
+                if (username) {
+                    if (password === undefined || password === '') {
+                        socket.emit("join-room", roomName, null); // Null password for public rooms
+                        currentRoom = roomName;
+                        chatMessages.innerHTML = ""; // Clear chat when joining a new room
+                        chatCheck();
+                    } else {
+                        // Private room with password
+                        socket.emit("join-room", roomName, password);
+                        currentRoom = roomName;
+                        chatMessages.innerHTML = ""; // Clear chat when joining a new room
+                        chatCheck();
+                    }
+                } else {
+                    alert("Please log in first.");
+                }
+            }
+
+            socket.on("request-room-details", (roomName, callback) => {
+                const roomDetails = sessionState.rooms[roomName];
+                if (roomDetails) {
+                    callback({
+                        bannedUsers: roomDetails.bannedUsers || [],
+                        rooms: roomDetails.rooms[roomName] || {}
+                    });
+                } else {
+                    callback({ error: "Room not found" });
+                }
+            });
+
+            // Listen for leaving room click 
+            document.getElementById("leave").addEventListener("click", function () {
+                if (currentRoom) {
+                    leaveRoom();
+                } else {
+                    alert("You are not in a room.");
+                }
+            });
+
+            //Function to leave a room
+            function leaveRoom() {
+                if (!currentRoom) {
+                    alert("You are not in a room to leave.");
+                    return;
+                }
+                console.log(username, " attempting to leave room: ", currentRoom); // Debugging log
+                socket.emit("leave-room", currentRoom, username);
+                currentRoom = null;
+                chatCheck();
+                alert("You have left the room.");
+            }
+
+            // Send a message to the room
+            // Listen for the button click to send message
+            document.getElementById("sendMessage").addEventListener("click", sendMessage);
+            function sendMessage() {
+                let message = chatInput.value;
+                if (message.trim() && currentRoom && username) {
+                    console.log("Message to send: ", message);
+
+                    if (document.getElementById("send-whisper").checked) {
+                        let whisperUser = whisperTo.value.trim();
+                        console.log("Whispering to user: ", whisperUser);
+
+                        if (whisperUser) {
+                            // Emit whisper to server
+                            console.log("Emitting whisper to server...");
+                            socket.emit("message_to_room", {
+                                roomName: currentRoom,
+                                message,
+                                username,
+                                whisperUser
+                            });
+                            whisperTo.value = "";
+                        } else {
+                            alert("Please specify a user to whisper to.");
+                        }
+                    } else {
+                        // Send a public message to the room
+                        console.log("Emitting public message to server...");
+                        socket.emit("message_to_room", { roomName: currentRoom, message, username });
+                    }
+                    chatInput.value = "";
+                }
+            }
+
+            //listen for user join 
+            socket.on("user-joined", function (data) {
+                console.log("User joined:", data);
+                displayMessage(`${data.username} joined the room`);
+            });
+
+            //listen for user left
+            socket.on("user-left", function (data) {
+                console.log("User left event received:", data);
+                displayMessage(`${data.username} left the room`);
+            });
+
+
+            //listen for send-all radio button click 
+            document.getElementById("send-all").addEventListener("click", function () {
+                console.log("all radio button selected");
+                sendAll();
+            });
+
+            //function to disable the whisper input field and send a message to all users in the room
+            function sendAll() {
+                whisperTo.disabled = true;
+                chat_input.disabled = false;
+                sendMessage();
+            }
+
+            //listen for send-whisper radio button selection 
+            document.getElementById("send-whisper").addEventListener("click", function () {
+                console.log("whisper radio button selected");
+                whisperTo.disabled = false;
+                chat_input.disabled = false;
+            });
+
+            //emission of whisper from server side
+            socket.on('whisper-message', function (data) {
+                const { message, roomName } = data;
+                console.log(`Whisper received: ${message} in room ${roomName}`);
+                displayMessage(message, roomName, 'whisper', true);
+            });
+
+            //display a message in the chat
+            function displayMessage(message, roomName, messageType, isWhisper) {
+                const chatMessages = document.getElementById("chat-messages");
+                const messageElem = document.createElement("div");
+                messageElem.innerText = message;
+
+                if (isWhisper) {
+                    messageElem.style.fontStyle = 'italic';
+                    messageElem.style.color = 'gray';
+                } else {
+                    messageElem.style.fontStyle = 'normal';
+                    messageElem.style.color = 'black';
+                }
+
+                chatMessages.appendChild(document.createElement("hr"));
+                chatMessages.appendChild(messageElem);
+                chatMessages.appendChild(document.createElement("br"));
+            }
+
+            socket.on("update-userlist", function (users) {
+                console.log("Received user list:", users);
+                userList.innerHTML = "";
+
+                if (Array.isArray(users)) {
+                    users.forEach(user => {
+                        const userItem = document.createElement("li");
+                        if(user.username){
+                            userItem.innerText = user.username;
+                        }else{
+                            userItem.innerText = user;
+                        }
+
+                        console.log(user);
+                        if (user.isOwner) {
+                            userList.appendChild(userItem);
+                        } else {
+                            const kickButton = document.createElement("button");
+                            kickButton.innerText = "Kick";
+                            if(user.username){
+                                kickButton.onclick = () => kickUser(user.username);
+                            }else{
+                                kickButton.onclick = () => kickUser(user);
+                            }
+                            const banButton = document.createElement("button");
+                            banButton.innerText = "Ban";
+                            if(user.username){
+                                banButton.onclick = () => banUser(user.username);
+                            }else{
+                                banButton.onclick = () => banUser(user);
+                            }
+
+                            userItem.appendChild(kickButton);
+                            userItem.appendChild(banButton);
+                            userList.appendChild(userItem);
+                        }
+                    });
+                } else {
+                    console.error("Users list is not an array:", users);
+                }
+            });
+
+            function kickUser(username) {
+                socket.emit("kick-user", { room: currentRoom, username });
+            }
+
+            socket.on("kicked", ({ room }) => {
+                alert(`You've been kicked from the room : ${room}`);
+                currentRoom = null;
+                chatCheck();
+            })
+
+            function banUser(username) {
+                const currentUser =
+                    socket.emit("ban-user", { room: currentRoom, username });
+            }
+
+            socket.on("banned", ({ room }) => {
+                alert(`You've been banned from the room: ${room}`);
+                currentRoom = null;
+                chatCheck();
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>
