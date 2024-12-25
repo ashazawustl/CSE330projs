@@ -1,0 +1,243 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Julius Sans One", "Jost", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: rgb(26, 22, 62);
+    --text-color: rgb(246, 235, 221);
+}
+
+html,
+body {
+    background-color: var(--bg);
+    color: var(--text-color);
+    font-family: "Julius Sans One", "Jost", sans-serif;
+}
+
+.pop-up-form-wrapper {
+    display: none;
+    position: fixed;
+    top: 30vh;
+    right: 40vw;
+    width: 50%;
+    z-index: 100;
+    background-color: aliceblue;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.header-button-container {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.toggler {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+button {
+    background-color: var(--text-color);
+    color: var(--bg);
+    border: 2px solid var(--text-color);
+    border-radius: 1rem;
+}
+
+button:hover {
+    background-color: var(--bg);
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 1rem;
+}
+
+
+.cal-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+    margin: 0px;
+}
+
+.cal-title h1 {
+    margin-bottom: 5px;
+}
+
+.cal-title p {
+    margin-top: 0;
+}
+
+#calendar_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#calendar-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#month-year {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.cal-buttons {
+    display: flex;
+
+    button {
+        background-color: var(--bg);
+        color: var(--text-color);
+        border: none;
+    }
+
+    button:hover {
+        background-color: var(--text-color);
+        color: var(--bg);
+        border-radius: 2rem;
+    }
+
+}
+
+#prev_month_btn,
+#next_month_btn {
+    margin: 0 10px;
+}
+
+
+#calendar {
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 20px;
+}
+
+#calendar th,
+#calendar td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    vertical-align: center;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    margin: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.pop-up {
+    margin: 10px;
+    margin-left: 10px;
+    font-size: 1em;
+    padding: 10px 20px;
+}
+
+.pop-up-form-wrapper{
+    margin-bottom: 10vh;
+}
+
+.pop-up-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--text-color);
+    color: var(--bg);
+
+    button {
+        background-color: var(--bg);
+        color: var(--text-color);
+        border: 2px solid var(--bg);
+        border-radius: 1rem;
+    }
+
+    button:hover {
+        background-color: var(--text-color);
+        color: var(--bg);
+        border: 2px solid var(--bg);
+        border-radius: 1rem;
+    }
+}
+
+.button-divs{
+    display: flex;
+    flex-direction: row;
+}
+
+.pop-up-form h2 {
+    margin-bottom: 10px;
+
+}
+
+.pop-up-form label {
+    margin-top: 10px;
+}
+
+.pop-up-form input {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.pop-up-submit,
+.cancel-button {
+    margin: 10px;
+    padding: 10px 20px;
+}
+
+.footer-button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+}
+
+.footer p {
+    margin: 0;
+    text-align: center;
+}

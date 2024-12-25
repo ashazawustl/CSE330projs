@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CalPal</title>
+    <meta name="description" content="Event Sharing Calendar">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="calendar.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+        <!--Login Pop-up Form  -->
+            <div class="header-button-container">
+                <button class="pop-up" name="login" id="login_button" onclick="popUp(this)"> Login </button>
+                <div class="pop-up-form-wrapper" id="login">
+                    <form class="pop-up-form">
+                        <h2>Login</h2>
+                        <label for="log-username">
+                            Username:
+                        </label>
+                        <input type="text" id="log-username" placeholder="Username" required>
+                        <label for="log-password">
+                            Password:
+                        </label>
+                        <input type="password" id="log-password" placeholder="Password" required>
+                        <br>
+                        <div class="button-divs">
+                            <button type="submit" class="pop-up-submit">Login</button>
+                            <button type="button" class="cancel-button" name="login"
+                                onclick="popDown(this)">Close</button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <!-- Register Pop-up Form -->
+                <button class="pop-up" name="register" id="register_button" onclick="popUp(this)"> Register
+                </button>
+                <div class="pop-up-form-wrapper" id="register">
+                    <form class="pop-up-form">
+                        <h2>Create an Account</h2>
+                        <label for="reg-username">
+                            Create Username:
+                        </label>
+                        <input type="text" id="reg-username" placeholder="Username" required>
+                        <label for="reg-password">
+                            Create Password:
+                        </label>
+                        <input type="text" id="reg-password" placeholder="Password" required>
+                        <p>You still need to login after registering!</p> <!--can make this an alert -->
+                        <div class="button-divs">
+                            <button type="submit" class="pop-up-submit">Register</button>
+                            <button type="button" class="cancel-button" name="register"
+                                onclick="popDown(this)">Close</button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Logout Button (hidden until logged in)-->
+                <form>
+                    <button id="logout" onclick="logoutUser()">Logout</button>
+                </form>
+            </div>
+
+            <!--Dark and Light Mode Toggle Switch-->
+            <div class="toggler">
+                <button type="button" id="ld"> Toggle Dark Mode </button>
+            </div>
+
+            <div class="cal-title">
+                <h1>CalPal</h1>
+                <p>The social event calendar!</p>
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- The Display for the Calendar -->
+    <div id="calendar_wrapper">
+        <div id="calendar-header">
+            <div id="month-year"></div>
+            <div class="cal-buttons">
+                <button id="prev_month_btn"> &lArr; Prev </button>
+                <button id="next_month_btn">Next &rArr;</button>
+            </div>
+        </div>
+
+        <table id="calendar">
+        </table>
+    </div>
+
+    <footer>
+        <div class="footer-button-container">
+            <!-- Add Event Pop-up Form (does nothing on submit unless logged in)-->
+            <button class="pop-up" name="add-event" onclick="popUp(this)"> Create Event </button>
+            <div class="pop-up-form-wrapper" id="add-event">
+                <form class="pop-up-form">
+                    <h2>Create an Event</h2>
+                    <label for="title">
+                        Event Title:
+                    </label>
+                    <input type="text" id="title" placeholder="Enter Title" required>
+                    <label for="location">
+                        Location:
+                    </label>
+                    <input type="text" id="location" placeholder="Enter Location" required>
+                    <label for="datetime">
+                        Date and Time:
+                    </label>
+                    <input type="datetime-local" id="datetime" required>
+                    <div class="button-divs">
+                        <button type="submit" class="pop-up-submit" id="save-event">Save Event</button>
+                        <button type="button" class="cancel-button" name="add-event"
+                            onclick="popDown(this)">Close</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Edit Event Pop-up Form (does nothing on submit unless logged in)-->
+            <button class="pop-up" name="edit-event" onclick="popUp(this)"> Edit Event </button>
+            <div class="pop-up-form-wrapper" id="edit-event">
+                <form class="pop-up-form" id="edit-event-form">
+                    <h2>Which event?</h2>
+
+                    <label for="edit-id">
+                        Event ID:
+                    </label>
+                    <input type="text" id="edit-id" name="edit-id" placeholder="Enter Event ID" required>
+
+                    <p>Only edit what you want to change</p>
+
+                    <label for="new-title">
+                        New Title:
+                    </label>
+                    <input type="text" id="new-title" name="new-title" placeholder="Enter New Title">
+
+                    <label for="new-location">
+                        New Location:
+                    </label>
+                    <input type="text" id="new-location" name="new-location" placeholder="Enter New Location">
+
+                    <label for="new-datetime">
+                        New Date and Time:
+                    </label>
+                    <input type="datetime-local" id="new-datetime" name="new-datetime">
+                    <div class="button-divs">
+                        <button type="submit" class="pop-up-submit" id="save-new">Save Event</button>
+                        <button type="button" class="cancel-button" name="edit-event"
+                            onclick="popDown(this)">Close</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <!-- Share Event Pop-up Form (does nothing on submit unless logged in)-->
+            <button class="pop-up" name="share-event" onclick="popUp(this)"> Share Event </button>
+            <div class="pop-up-form-wrapper" id="share-event">
+                <form class="pop-up-form">
+                    <h2>Share an Event</h2>
+                    <label for="share-id">
+                        Event to Share:
+                    </label>
+                    <input type="text" id="share-id" placeholder="Enter Event ID">
+                    <label for="share-user">
+                        Sharing With:
+                    </label>
+                    <input type="text" id="share-user" placeholder="Enter User Id">
+                    <div class="button-divs">
+                        <button type="submit" class="pop-up-submit" id="share-bttn">Share</button>
+                        <button type="button" class="cancel-button" name="share-event"
+                            onclick="popDown(this)">Close</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Delete Event Pop-up Form (does nothing on submit unless logged in)-->
+            <button class="pop-up" name="delete-event" onclick="popUp(this)"> Delete Event </button>
+            <div class="pop-up-form-wrapper" id="delete-event">
+                <form class="pop-up-form">
+                    <h2>Delete An Event</h2>
+                    <label for="delete-id">
+                        Title for Deletion:
+                    </label>
+                    <input type="text" id="delete-id" placeholder="Enter Title">
+                    <div class="button-divs">
+                        <button type="submit" class="pop-up-submit" id="delete-bttn">Delete</button>
+                        <button type="button" class="cancel-button" name="delete-event"
+                            onclick="popDown(this)">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- All Scripts Involved -->
+    <script src="register.js"></script>
+    <script src="login.js"></script>
+    <script src="logout.js"></script>
+    <script src="delete_event.js"></script>
+    <script src="edit-event.js"></script>
+    <script src="calendar.js"></script>
+    <script src="LDmode.js"></script>
+
+
+</body>
+
+</html>
