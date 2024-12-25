@@ -1,0 +1,206 @@
+/*------------DEFAULTS---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Julius Sans One", "Jost", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --poke-red: #aa2f56;
+  --offwhite: #efe9f0;
+  --off-black: #1d1a21;
+  --daisy: #f3b867;
+  --pokigrey: #494547;
+}
+
+/* ------------- Header ------------ */
+header{
+  background-color: var(--off-black);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  color: var(--miss-rose);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 3vw;
+}
+
+header h1{
+  text-align: center;
+  margin-bottom: .5rem;
+  color: var(--daisy);
+  font-size: 10vw;
+}
+
+@media only screen and (min-width: 1000px) {
+  header{
+    font-size: 30px
+  }
+  header h1{
+    font-size: 80px;
+  }
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+a {
+  font-weight: bold;
+  color: var(--offwhite);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--poke-red);
+}
+
+
+/*--------- Home Page -------------- */
+body{
+background-color: var(--pokigrey);
+color: var(--off-black);
+}
+
+h2, h3{
+ color:var(--poke-red);
+}
+
+ul b{
+ color: var(--poke-red);
+}
+
+.App-Wrapper{
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/*--------- GALLERY ---------------- */
+
+#profile{
+  margin: 2rem;
+  background-color: var(--off-black);
+  padding: 2rem;
+  color: var(--offwhite);
+  border-radius: 1rem;
+}
+
+#profile h1,h2 {
+  color: var(--poke-red);
+  font-size: xx-large;
+}
+
+#poke-gallery{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1.5rem;
+}
+
+.poke-card{
+  background-color: var(--offwhite);
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  animation: 1s fadeInUp;
+}
+
+.poke-card h3{
+  color: var(--pokigrey);
+}
+
+.stat{
+  display: flex;
+}
+
+/*----- TRADE + GACHA ----------*/
+#Trade-Wrapper, #roll-info{
+  margin: 2rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--offwhite);
+  border-radius: 1rem;
+  color: var(--off-black);
+  animation: .5s fadeInUp;
+}
+
+#Trade-Wrapper h2, #roll-info h2{
+  color: var(--off-black);
+  margin-bottom: 1rem;
+}
+
+#Trade-Wrapper h1, #roll-info h1{
+  padding: .75rem;
+  text-align: center;
+  background-color: var(--pokigrey);
+  border-radius: 2rem;
+  color: var(--daisy);
+  margin-bottom: 1rem;
+}
+
+#Trade-Wrapper li{
+  margin-left: 2rem;
+}
+
+button{
+  padding: .25rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  background-color: var(--pokigrey);
+  border-radius: .5rem;
+  border: solid .25rem var(--pokigrey);
+  color: var(--daisy);
+  font-weight: bold;
+}
+
+button:hover{
+  padding: .25rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  background-color: var(--pokigrey);
+  border-radius: .5rem;
+  border: solid .25rem var(--daisy);
+  color: var(--daisy);
+  font-weight: bold;
+}
+
+input{
+  padding:.5rem;
+  border-radius: .25rem;
+}
+
+
+/*-------- Login / Logout --------*/
+.Log-Wrapper{
+  margin: 2rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--offwhite);
+  border-radius: 1rem;
+  color: var(--off-black);
+  animation: 1s fadeInUp;
+}
+
+@keyframes fadeInUp {
+  0% {
+      transform: translateY(100%);
+      opacity: 0;
+  }
+
+  100% {
+      transform: translateY(0%);
+      opacity: 1;
+  }
+}
