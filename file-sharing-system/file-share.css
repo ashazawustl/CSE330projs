@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Julius Sans One", "Jost", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root{
+    --deep-violet: #202033;
+    --beige:  #f9e1e3;
+    --lilac: #b2a4ee;
+    --less-violet: #a472c7;
+    --miss-rose: #f09cbe;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+    color: var(--beige);
+}
+
+h1{
+    font-style: italic;
+}
+
+.nunito-sans-Nunito {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+}
+
+body{
+    padding: 3rem;
+    background: var(--deep-violet);
+    color: white;
+    border-width: 3px;
+}
+
+li{
+    font: 12px;
+    color: var(--beige);
+}
+
+#input-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+.file-actions input::file-selector-button{
+    border-radius: 60px;
+    padding: 0.5rem 0.5rem;
+    font-size: 1rem;
+    border: none;
+    color: gray;
+    background: var(--miss-rose);
+    cursor: pointer;
+    margin: auto;
+    margin-bottom: 5%;
+    margin-right: 5%;
+    letter-spacing: 3px;
+}
+
+#delete-button{
+    border-radius: 60px;
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    border: none;
+    color: black;
+    background: var(--miss-rose);
+    cursor: pointer;
+    margin: auto;
+    letter-spacing: 3px;
+    margin-left: 5%;
+}
+
+#upload-button{
+    border-radius: 60px;
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    border: none;
+    color: black;
+    background: var(--miss-rose);
+    cursor: pointer;
+    margin: auto;
+    letter-spacing: 3px;
+}
+
+#input-box{
+    margin-bottom: 5%;
+    font: 20px;  
+}
+
+.file-display{
+    float: left;
+    width: 50%;
+}
+
+.file-actions{
+    margin-bottom: 5%;
+    float: right;
+    width: 50%;
+}
+
+.logout-but{
+    font-size: 15px;
+    border:1px solid var(--miss-rose);
+    border-radius: 0.5rem;
+    background: var(--miss-rose);
+    cursor: pointer;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+.logout-but a{
+    font: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.footer{
+    display:flex;
+}
