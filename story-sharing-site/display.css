@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Julius Sans One", "Jost", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.spacing{
+    padding: 5%;
+    margin-bottom: 2rem;
+}
+
+:root{
+    --deep-violet: #202033;
+    --beige:  #f9e1e3;
+    --lilac: #b2a4ee;
+    --less-violet: #a472c7;
+    --miss-rose: #f09cbe;
+}
+
+.site-header{
+    background: var(--less-violet);
+    margin: auto;
+    color: var(--beige);
+
+}
+
+.site-header h1{
+    display: inline;
+    margin-left:2%;
+}
+
+h2{
+    display: inline;
+}
+
+.site-header #register, #login{
+    float: right;
+    margin-right: 2%;
+    justify-content: space-between;
+}
+
+.site-header #logout, #userdisplay{
+    float: right;
+    margin-right: 2%;
+    justify-content: space-between;
+} 
+
+input[type="button"]{
+    padding: .5rem;
+    border: .25rem solid var(--beige);
+    border-radius: .5rem;
+    background-color: var(--less-violet);
+    font-weight: bold;
+    color: var(--beige);
+}
+
+input[type="button"]:hover{
+    padding: .5rem;
+    border: .25rem solid var(--miss-rose);
+    border-radius: .5rem;
+    background-color: var(--beige);
+    font-weight: bold;
+    color: var(--less-violet);
+}
+
+#posttitle{
+    font-size: 30px;
+}
+
+.add-post{
+    justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--less-violet);
+    padding: 10px;
+}
+
+.post{
+    margin-top: 1rem;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 10px;
+    border: .25rem solid var(--less-violet);
+    border-radius: 1.5rem;
+}
+
+.post h1{
+    color: var(--less-violet);
+}
+
+.post h3{
+    color: var(--lilac);
+    font-style: italic;
+}
+
+.comment-section{
+    margin-left: 1rem;
+}
+
+.comment-section input{
+    padding: .4rem;
+    margin-top: .25rem;
+}
+
+.vote{
+    padding: .5rem;
+    color: var(--lilac);
+    font-style: italic;
+}
+
+.vote input{
+    padding: .25rem .5rem;
+    border-radius: 1.5rem;
+    background-color: var(--beige);
+    border: .15rem solid var(--less-violet);
+}
+
+/* Footer Credit: 
+Abby Endale 
+SP24 CSE240 
+Image Gallery Lab */
+footer{
+    background-color: var(--less-violet);
+    color: var(--beige);
+    padding: .25rem .5rem;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+
